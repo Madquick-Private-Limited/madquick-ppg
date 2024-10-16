@@ -1,17 +1,20 @@
 <?php
-
 /*
 Plugin Name: Madquick PPG
 Version: 1.0.0
-Author: Madquick Team
+Author: Madquick PVT LTD
+Author URI: https://github.com/Madquick-Private-Limited/
 Text Domain: madquick-ppg
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
+
 
 defined("ABSPATH") || exit;
 
 /* imports */
 require_once "Madquick_Page_CPT.php";
-
+require_once "ajax/create-ppg-page.php";
 
 function madquick_enqueue_scripts() {
     wp_enqueue_script('jquery');
@@ -29,8 +32,8 @@ function madquick_ppg_add_admin_menu() {
 
     // Main menu
     add_menu_page(
-        'Home',   // Page title
-        'Home',            // Menu title
+        'Privary & Policy Generator',   // Page title
+        'Privary & Policy Generator',            // Menu title
         'manage_options',          // Capability required to access the menu
         'madquick-ppg-home',            // Menu slug (unique identifier)
         'madquick_ppg_add_legal_page_cb', // Function to display the page content
@@ -56,52 +59,93 @@ function madquick_ppg_add_legal_page_cb() {
     <!-- main page -->
     <?php if($current_action === "none"): ?>
     
-    <style>
-        table tbody tr {
-            padding-bottom: 12px;
-        }
+        <style>
+            .wrap {
+                margin-top: 20px;
+            }
 
-        .input-field {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-        }
-    </style>
-    <div class="wrap">
-        <h1 class="wp-heading-inline"><?php esc_html_e('All Legal Pages', 'madquick-ppg'); ?></h1>
-        <table> 
-            <tbody>
-                <tr>
-                    <td style="vertical-align: unset; width: 40%;">
-                        <p style="font-weight: bold;">Privacy Policy</p>
-                    </td>
-                    <td>
-                        <div style="border: 1px solid gray; border-radius: 6px;
-                        padding: 16px;
-                        ">
-                            <p>Create a simple Privacy Policy for your WordPress website.</p>
-                            <a class="button button-primary" href="?page=madquick-ppg-add-legal-page&currect-action=create-ppg" id="">Create</a>
-                        </div>
-                    </td>
-                </tr>
-            
-                <tr>
-                    <td style="vertical-align: unset; width: 40%;">
-                        <p style="font-weight: bold;">Terms & Conditions</p>
-                    </td>
-                    <td>
-                        <div style="border: 1px solid gray; border-radius: 6px;
-                        padding: 16px;
-                        ">
-                            <p>Create a simple Privacy Policy for your WordPress website.</p>
-                            <a class="button button-primary" href="?page=madquick-ppg-add-legal-page&currect-action=create-tmc" id="">Create</a>
-                        </div>
-                    </td>
-                </tr> 
-            </tbody>
-        </table>
-    </div>
+            .table-container {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            .table-container td {
+                padding: 20px;
+                vertical-align: top;
+            }
+
+            .table-container tr {
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .table-container tr:last-child {
+                border-bottom: none;
+            }
+
+            .policy-card {
+                border: 1px solid #dcdcdc;
+                border-radius: 6px;
+                padding: 20px;
+                background-color: #fafafa;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .policy-title {
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            .policy-description {
+                margin-bottom: 12px;
+                color: #444;
+            }
+
+            .button-primary {
+                margin-top: 8px;
+            }
+        </style>
+
+        <div class="wrap">
+            <h1 class="wp-heading-inline"><?php esc_html_e('All Legal Pages', 'madquick-ppg'); ?></h1>
+
+            <table class="table-container">
+                <tbody>
+                    <tr>
+                        <td style="width: 40%;">
+                            <p class="policy-title"><?php esc_html_e('Privacy Policy', 'madquick-ppg'); ?></p>
+                        </td>
+                        <td>
+                            <div class="policy-card">
+                                <p class="policy-description">
+                                    <?php esc_html_e('Create a simple Privacy Policy for your WordPress website.', 'madquick-ppg'); ?>
+                                </p>
+                                <a class="button button-primary" href="?page=madquick-ppg-home&currect-action=create-ppg">
+                                    <?php esc_html_e('Create', 'madquick-ppg'); ?>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 40%;">
+                            <p class="policy-title"><?php esc_html_e('Terms & Conditions', 'madquick-ppg'); ?></p>
+                        </td>
+                        <td>
+                            <div class="policy-card">
+                                <p class="policy-description">
+                                    <?php esc_html_e('Create Terms & Conditions for your WordPress website.', 'madquick-ppg'); ?>
+                                </p>
+                                <a class="button button-primary" href="#">
+                                    <?php esc_html_e('Create', 'madquick-ppg'); ?>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
 
     <?php endif; ?>
 
@@ -515,49 +559,3 @@ function madquick_ppg_help_page() {
     <?php
 }
 
-/* ====================== AJAX Create When user click on generate ================ */
- 
-
-// Register AJAX action for logged-in users
-add_action('wp_ajax_create_custom_page', 'madquick_create_privacy_and_policy_page');
-
-// Register AJAX action for guests (not logged-in users)
-add_action('wp_ajax_nopriv_create_custom_page', 'madquick_create_privacy_and_policy_page');
-
-// Function to handle form submission and create a new page
-function madquick_create_privacy_and_policy_page() {
-    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'madquick_nonce' ) ) {
-        wp_send_json_error('Invalid security token.');
-        exit;
-    }
-
-    // Check if user is logged in
-    if (!is_user_logged_in()) {
-        wp_send_json_error('User is not logged in.');
-        exit;
-    }
-
-    // Collect the form data from AJAX
-    if (isset($_POST['post_content'])) {
-        // Create a new page
-        $new_page = array(
-            'post_title'    => "Privacy & Policy",
-            'post_content'  => wp_kses_post($_POST['post_content']), // Sanitize the content
-            'post_status'   => 'publish',
-            'post_type'     => 'page', 
-        );
-
-        // Insert the post into the database
-        $post_id = wp_insert_post($new_page);
-
-        if ($post_id) {
-            // Return success and the new page URL
-            $page_url = get_permalink($post_id);
-            wp_send_json_success(['url' => $page_url]);
-        } else {
-            wp_send_json_error('Error creating the page.');
-        }
-    } else {
-        wp_send_json_error('No form data received.');
-    }
-}
