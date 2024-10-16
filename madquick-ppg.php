@@ -7,6 +7,7 @@ Author URI: https://github.com/Madquick-Private-Limited/
 Text Domain: madquick-ppg
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Keywords: privacy, policy, terms, legal, compliance, GDPR, madquick
 */
 
 
