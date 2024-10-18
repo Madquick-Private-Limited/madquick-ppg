@@ -2,11 +2,11 @@
 /*
 Plugin Name: Madquick PPG
 Version: 1.0.0
-Author: Madquick PVT LTD
+Author: madquick team
 Author URI: https://github.com/Madquick-Private-Limited/
 Text Domain: madquick-ppg
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Keywords: privacy, policy, terms, legal, compliance, GDPR, madquick
 Description: A simple wordpress plugin that help us to generate privacy and policy page and other legal pages that are required in your website.
 */
