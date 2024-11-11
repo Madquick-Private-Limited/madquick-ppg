@@ -28,7 +28,7 @@ add_action('wp_enqueue_scripts', 'madquick_enqueue_scripts');
 add_action('admin_menu', 'madquick_ppg_add_admin_menu');
 
 // defined in cpt page
-add_action('init', 'madquick_register_custom_post_type');
+// add_action('init', 'madquick_register_custom_post_type');
 
 function madquick_ppg_add_admin_menu() {
 
