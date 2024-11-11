@@ -1,0 +1,45 @@
+.wrap {
+  margin-top: 20px;
+}
+
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table-container td {
+  padding: 20px;
+  vertical-align: top;
+}
+
+.table-container tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table-container tr:last-child {
+  border-bottom: none;
+}
+
+.policy-card {
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.policy-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.policy-description {
+  margin-bottom: 12px;
+  color: #444;
+}
+
+.button-primary {
+  margin-top: 8px;
+}

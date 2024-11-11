@@ -4,9 +4,9 @@ Tags: privacy, policy, terms, legal, GDPR
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.12.1
-License: GPLv3
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Stable tag: 1.0.0
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Madquick PPG helps you generate Privacy Policies and Terms & Conditions for your WordPress site with ease.
 
