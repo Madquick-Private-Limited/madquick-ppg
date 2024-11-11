@@ -15,7 +15,7 @@ Description: A simple wordpress plugin that help us to generate privacy and poli
 defined("ABSPATH") || exit;
 
 /* imports */
-require_once "Madquick_Page_CPT.php";
+// require_once "Madquick_Page_CPT.php";
 require_once "ajax/create-ppg-page.php";
 
 function madquick_enqueue_scripts() {
