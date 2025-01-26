@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Plugin Name: Madquick PPG
+ * Plugin Name: Privacy Policy Generator - Madquick
  * Author URI: https://github.com/Madquick-Private-Limited/
  * Requires at least: 6.3
  * Requires PHP: 7.2.24
- * Version: 1.0.0
+ * Version: 1.0.1
  * Description: A simple WordPress plugin that help us to generate privacy and policy page and other legal pages that are required in your website.
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
