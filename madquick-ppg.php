@@ -6,10 +6,10 @@
  * Requires at least: 6.3
  * Requires PHP: 7.2.24
  * Version: 1.0.0
- * Description: A simple wordpress plugin that help us to generate privacy and policy page and other legal pages that are required in your website.
+ * Description: A simple WordPress plugin that help us to generate privacy and policy page and other legal pages that are required in your website.
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * Keywords: privacy, policy, terms, legal, compliance, GDPR, madquick
+ * Keywords: privacy, policy, terms, legal, compliance, GDPR, Madquick
  * Text Domain: madquick-ppg
  * 
  * @package madquick-ppg
@@ -26,35 +26,40 @@ function madquick_enqueue_scripts($hook_suffix)
     // Define the plugin directory path for file versioning
     $plugin_dir = plugin_dir_path(__FILE__);
 
-    // Enqueue the script and set 'jquery' as a dependency, with versioning
-    wp_enqueue_script(
+    // Register the JavaScript file
+    wp_register_script(
         'generate-policy-script',
         plugin_dir_url(__FILE__) . 'assets/js/generate-policy.js',
-        ['jquery'],
+        ['jquery'], // Dependencies
         filemtime($plugin_dir . 'assets/js/generate-policy.js'), // Dynamic version based on last modified time
         true // Load in the footer
     );
 
-    // Enqueue the CSS files with dynamic versioning
-    wp_enqueue_style(
-        "home-page-css",
-        plugin_dir_url(__FILE__) . "assets/css/home-page.css",
-        [],
-        filemtime($plugin_dir . "assets/css/home-page.css")
-    );
-
-    wp_enqueue_style(
-        "plugin-page-css",
-        plugin_dir_url(__FILE__) . "assets/css/plugin-page.css",
-        [],
-        filemtime($plugin_dir . "assets/css/plugin-page.css")
-    );
+    // Enqueue the registered script
+    wp_enqueue_script('generate-policy-script');
 
     // Localize the script immediately after enqueueing
     wp_localize_script('generate-policy-script', 'ajax_object', [
         'ajax_url' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('madquick_nonce'),
     ]);
+
+    // Register and enqueue the CSS files
+    wp_register_style(
+        'home-page-css',
+        plugin_dir_url(__FILE__) . 'assets/css/home-page.css',
+        [], // No dependencies
+        filemtime($plugin_dir . 'assets/css/home-page.css')
+    );
+    wp_enqueue_style('home-page-css');
+
+    wp_register_style(
+        'plugin-page-css',
+        plugin_dir_url(__FILE__) . 'assets/css/plugin-page.css',
+        [], // No dependencies
+        filemtime($plugin_dir . 'assets/css/plugin-page.css')
+    );
+    wp_enqueue_style('plugin-page-css');
 }
 add_action('admin_enqueue_scripts', 'madquick_enqueue_scripts');
 
