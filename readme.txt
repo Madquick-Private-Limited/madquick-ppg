@@ -1,4 +1,4 @@
-﻿=== Madquick PPG ===
+﻿=== Privacy Policy Generator - Madquick ===
 Contributors: madquick team  
 Tags: privacy, policy, terms, legal, GDPR  
 Requires at least: 6.3
@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Madquick PPG helps you generate Privacy Policies and Terms & Conditions for your WordPress site with ease.
+Privacy Policy Generator - Madquick helps you generate Privacy Policies and Terms & Conditions for your WordPress site with ease.
 
 == Description ==
 
