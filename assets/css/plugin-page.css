@@ -2,6 +2,59 @@
   margin-top: 20px;
 }
 
+.mq-legal-table-container {
+  width: 100%;
+  max-width: 700px;
+  /* margin: 32px auto 0 auto; */
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  /* box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); */
+  overflow: hidden;
+}
+
+.mq-legal-table-container td {
+  vertical-align: top;
+  padding: 0;
+  border: none;
+}
+
+.mq-policy-title {
+  /* font-size: 1.1rem;
+  font-weight: 600;
+  color: #23282d;
+  padding: 28px 32px 18px 32px;
+  border-right: 1px solid #f1f1f1;
+  background: #f9fafb;
+  min-width: 170px; */
+}
+
+.mq-policy-card {
+  padding: 4px 12px;
+}
+
+.mq-policy-description {
+  color: #50575e;
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .mq-legal-table-container,
+  .mq-legal-table-container tbody,
+  .mq-legal-table-container tr,
+  .mq-legal-table-container td {
+    display: block;
+    width: 100% !important;
+  }
+  .mq-policy-title,
+  .mq-policy-card {
+    /* padding: 18px 14px; */
+    border: none;
+    min-width: 0;
+  }
+}
+
 .table-container {
   width: 100%;
   border-collapse: collapse;

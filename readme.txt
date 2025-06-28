@@ -1,10 +1,10 @@
 ﻿=== Privacy Policy Generator - Madquick ===
 Contributors: madquick team  
 Tags: privacy, policy, terms, legal, GDPR  
-Requires at least: 6.3
-Tested up to: 6.7
+Requires at least: 6.8
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.2
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ While the plugin provides templates that aid compliance, it is recommended to re
 
 = 1.0.0 =  
 This is the first stable release. Please update regularly to benefit from new features and security fixes.
+
+= 1.0.2 =  
+
+Restructure internal pages, inside /pages/madquick-*.php
+Redesign all the pages
+Usages OOBs System
+Using the correct naming of identifier that start with madquick-ppg or madquick_ppg
 
 == Screenshots ==
 
