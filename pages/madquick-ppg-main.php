@@ -26,7 +26,7 @@
         </a>
     </div>
 
-    <div style="height: 64px; border-bottom: 1px dashed #d1d1d1" >
+    <div style="height: 32px; border-bottom: 1px dashed #d1d1d1" >
 
     </div>
     <h2 class=""><?php esc_html_e('Terms & Conditions', 'madquick-ppg'); ?></h2>
