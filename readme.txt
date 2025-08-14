@@ -59,6 +59,13 @@ Using the correct naming of identifier that start with madquick-ppg or madquick_
 1. **Settings Page** – Easily generate Privacy Policies and Terms & Conditions.
 2. **Generated Policy Page** – Example of a generated policy.
 
+= 1.0.3 =  
+
+Remove deprecation warnings
+Added strong password checker
+Added a new page called 'settings'
+Register password checker settings
+
 == License ==
 
 This plugin is licensed under the GNU General Public License v2.0 or later. You can find more details in the `LICENSE.txt` file.

@@ -21,6 +21,7 @@ define('MADQUICK_PPG_URL', plugin_dir_url(__FILE__));
 
 // Required files
 require_once MADQUICK_PPG_PATH . 'ajax/create-ppg-page.php';
+require_once MADQUICK_PPG_PATH . 'inc/class-madquick-ppg-strong-pass-checker.php';
 
 if (!class_exists('Madquick_PPG')) {
     final class Madquick_PPG {
@@ -29,7 +30,54 @@ if (!class_exists('Madquick_PPG')) {
             add_action('admin_menu', [$this, 'register_admin_menu']);                 // default priority 10
             add_action('admin_menu', [$this, 'hide_create_submenu_item'], 999);       // remove it from UI
             add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+
+            add_action('admin_init', [$this, 'register_settings']);
         }
+
+        public function register_settings() {
+            register_setting(
+                'madquick_ppg_options_group', // Option group
+                'madquick_ppg_settings',      // Option name (array)
+                [
+                    'type'              => 'array',
+                    'sanitize_callback' => [$this, 'sanitize_settings'],
+                    'default'           => [
+                        'enable_checker' => true,
+                        // add other defaults here later
+                    ]
+                ]
+            );
+
+            add_settings_section(
+                'madquick_ppg_main_section',
+                __('General Settings', 'madquick-ppg'),
+                '__return_false',
+                'madquick-ppg-settings'
+            );
+
+            add_settings_field(
+                'enable_checker',
+                __('Enable Strong Password Checker', 'madquick-ppg'),
+                function () {
+                    $options = get_option('madquick_ppg_settings', []);
+                    $value   = isset($options['enable_checker']) ? (bool) $options['enable_checker'] : true;
+                    ?>
+                    <input type="checkbox" name="madquick_ppg_settings[enable_checker]" value="1" <?php checked($value, true); ?>>
+                    <label><?php esc_html_e('Check to enforce strong password rules on login/registration.', 'madquick-ppg'); ?></label>
+                    <?php
+                },
+                'madquick-ppg-settings',
+                'madquick_ppg_main_section'
+            );
+        }
+
+        public function sanitize_settings($input) {
+            $output = [];
+            $output['enable_checker'] = !empty($input['enable_checker']);
+            // Add more sanitization for future settings here
+            return $output;
+        }
+
 
         public function load_textdomain() {
             load_plugin_textdomain('madquick-ppg', false, dirname(plugin_basename(__FILE__)) . '/languages/');
@@ -96,44 +144,44 @@ if (!class_exists('Madquick_PPG')) {
         }
 
         public function register_admin_menu() {
-    add_menu_page(
-        __('Privacy & Policy Generator', 'madquick-ppg'),
-        __('Privacy & Policy Generator', 'madquick-ppg'),
-        'manage_options',
-        'madquick-ppg-home',
-        [$this, 'render_main_page'],
-        'dashicons-shield-alt',
-        20
-    );
+            add_menu_page(
+                __('Privacy & Policy Generator', 'madquick-ppg'),
+                __('Privacy & Policy Generator', 'madquick-ppg'),
+                'manage_options',
+                'madquick-ppg-home',
+                [$this, 'render_main_page'],
+                'dashicons-shield-alt',
+                20
+            );
 
-    add_submenu_page(
-        'madquick-ppg-home',
-        __('Help', 'madquick-ppg'),
-        __('Help', 'madquick-ppg'),
-        'manage_options',
-        'madquick-ppg-help',
-        [$this, 'render_help_page']
-    );
+            add_submenu_page(
+                'madquick-ppg-home',
+                __('Help', 'madquick-ppg'),
+                __('Help', 'madquick-ppg'),
+                'manage_options',
+                'madquick-ppg-help',
+                [$this, 'render_help_page']
+            );
 
-    // ✅ Register "Create" under the real parent (string), not null.
-    add_submenu_page(
-        'madquick-ppg-home',
-        __('Create Legal Page', 'madquick-ppg'),
-        __('Create', 'madquick-ppg'),
-        'manage_options',
-        'madquick-ppg-create',
-        [$this, 'render_create_page']
-    );
+            // ✅ Register "Create" under the real parent (string), not null.
+            add_submenu_page(
+                'madquick-ppg-home',
+                __('Create Legal Page', 'madquick-ppg'),
+                __('Create', 'madquick-ppg'),
+                'manage_options',
+                'madquick-ppg-create',
+                [$this, 'render_create_page']
+            );
 
-    add_submenu_page(
-        'madquick-ppg-home',
-        __('Settings', 'madquick-ppg'),
-        __('Settings', 'madquick-ppg'),
-        'manage_options',
-        'madquick-ppg-settings',
-        [$this, 'render_settings_page']
-    );
-}
+            add_submenu_page(
+                'madquick-ppg-home',
+                __('Settings', 'madquick-ppg'),
+                __('Settings', 'madquick-ppg'),
+                'manage_options',
+                'madquick-ppg-settings',
+                [$this, 'render_settings_page']
+            );
+        }
 
         public function render_main_page() {
             $action = isset($_GET['current-action']) ? sanitize_text_field(wp_unslash($_GET['current-action'])) : '';

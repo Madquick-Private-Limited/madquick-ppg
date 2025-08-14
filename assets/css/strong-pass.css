@@ -1,0 +1,22 @@
+#mq-pass-notice {
+  max-width: 320px;
+  margin: auto;
+  box-sizing: border-box;
+  border-left: 4px solid #72aee6;
+  padding: 12px; 
+  background-color: #fff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+  word-wrap: break-word;
+}
+
+.mq-pass-req {
+  margin:.5em 0 0 1.2em;padding:0;
+}
+
+.mq-pass-req li {
+  margin:.25em 0;
+}
+
+.mq-notice-title, .mq-notice-desc {
+  margin:.25em 0;
+}
