@@ -4,8 +4,11 @@ class Madquick_ppg_strong_pass_checker {
     const META_FLAG  = '_mq_weak_pw_notice';
     const GEN_URL    = 'https://website.com'; // change
     const TEXTDOMAIN = 'madquick-ppg';
+    private static $settings = [];
 
     public static function init() {
+        self::$settings = get_option('madquick_ppg_settings');
+
         // server checks (optional advisory after login)
         add_filter('authenticate', [__CLASS__, 'check_on_login'], 30, 3);
         add_action('user_register', [__CLASS__, 'check_on_register'], 10);
@@ -47,6 +50,10 @@ class Madquick_ppg_strong_pass_checker {
     }
 
     public static function maybe_admin_notice() {
+        if (empty(self::$settings['enable_checker'])) {
+            return; // Disabled
+        }
+
         if (!is_user_logged_in()) return;
         $uid  = get_current_user_id();
         $flag = get_user_meta($uid, self::META_FLAG, true);
@@ -70,8 +77,7 @@ class Madquick_ppg_strong_pass_checker {
 
 
     public static function login_ssr_info_notice() {
-        $options = get_option('madquick_ppg_settings', ['enable_checker' => true]);
-        if (empty($options['enable_checker'])) {
+        if (empty(self::$settings['enable_checker'])) {
             return; // Disabled
         }
 
@@ -116,9 +122,7 @@ class Madquick_ppg_strong_pass_checker {
      * Enqueue external JS that performs live checks (no inline JS)
      */
     public static function enqueue_password_checker() {
-        $options = get_option('madquick_ppg_settings', ['enable_checker' => true]);
-        
-        if (empty($options['enable_checker'])) {
+        if (empty(self::$settings['enable_checker'])) {
             return; // Disabled
         }
 
