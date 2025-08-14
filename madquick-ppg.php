@@ -30,13 +30,24 @@ register_deactivation_hook(__FILE__, ['Madquick_PPG_Activator', 'deactivate']);
 
 if (!class_exists('Madquick_PPG')) {
     final class Madquick_PPG {
+        private $settings = [];
+        
         public function __construct() {
+            // Load settings once
+            $this->settings = get_option('madquick_ppg_settings', []);
+
             add_action('plugins_loaded', [$this, 'load_textdomain']);
             add_action('admin_menu', [$this, 'register_admin_menu']);                 // default priority 10
             add_action('admin_menu', [$this, 'hide_create_submenu_item'], 999);       // remove it from UI
             add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
-
             add_action('admin_init', [$this, 'register_settings']);
+
+            // Public-side banners
+            add_action('wp_enqueue_scripts', [$this, 'enqueue_update_my_browser_assets']);
+            add_action('wp_footer', [$this, 'output_update_my_browser_html']);
+
+            add_action('wp_enqueue_scripts', [$this, 'enqueue_cookie_banner_assets']);
+            add_action('wp_footer', [$this, 'output_cookie_banner']);
         }
 
         public function register_settings() {
@@ -48,7 +59,8 @@ if (!class_exists('Madquick_PPG')) {
                     'sanitize_callback' => [$this, 'sanitize_settings'],
                     'default'           => [
                         'enable_checker' => true,
-                        // add other defaults here later
+                        'enable_cookie_banner' => true,
+                        'enable_update_banner' => true,  
                     ]
                 ]
             );
@@ -74,15 +86,48 @@ if (!class_exists('Madquick_PPG')) {
                 'madquick-ppg-settings',
                 'madquick_ppg_main_section'
             );
+
+            add_settings_field(
+                'enable_cookie_banner',
+                __('Enable Cookie Banner', 'madquick-ppg'),
+                function () {
+                    $value = !empty($this->settings['enable_cookie_banner']);
+                    ?>
+                    <input type="checkbox" name="madquick_ppg_settings[enable_cookie_banner]" value="1" <?php checked($value, true); ?>>
+                    <label><?php esc_html_e('Show cookie consent banner on the site.', 'madquick-ppg'); ?></label>
+                    <?php
+                },
+                'madquick-ppg-settings',
+                'madquick_ppg_main_section'
+            );
+
+            add_settings_field(
+                'enable_update_banner',
+                __('Enable Update My Browser Banner', 'madquick-ppg'),
+                function () {
+                    $value = !empty($this->settings['enable_update_banner']);
+                    ?>
+                    <input type="checkbox" name="madquick_ppg_settings[enable_update_banner]" value="1" <?php checked($value, true); ?>>
+                    <label><?php esc_html_e('Display update notification banner for outdated browsers.', 'madquick-ppg'); ?></label>
+                    <?php
+                },
+                'madquick-ppg-settings',
+                'madquick_ppg_main_section'
+            );
+
         }
 
         public function sanitize_settings($input) {
-            $output = [];
-            $output['enable_checker'] = !empty($input['enable_checker']);
-            // Add more sanitization for future settings here
+            // Load current saved settings
+            $output = get_option('madquick_ppg_settings', []);
+
+            // Update only the keys that came from the settings form
+            $output['enable_checker']       = !empty($input['enable_checker']);
+            $output['enable_cookie_banner'] = !empty($input['enable_cookie_banner']);
+            $output['enable_update_banner'] = !empty($input['enable_update_banner']);
+
             return $output;
         }
-
 
         public function load_textdomain() {
             load_plugin_textdomain('madquick-ppg', false, dirname(plugin_basename(__FILE__)) . '/languages/');
@@ -146,6 +191,25 @@ if (!class_exists('Madquick_PPG')) {
                     'nonce'    => wp_create_nonce('madquick_nonce'),
                 ]);
             }
+        }
+
+        public function enqueue_update_my_browser_assets() {
+            if (is_admin() || empty($this->settings['enable_update_banner'])) return;
+
+            wp_enqueue_style(
+                'madquick-ppg-update-browser',
+                MADQUICK_PPG_URL . 'modules/update-my-browser/update-banner.css',
+                [],
+                filemtime(MADQUICK_PPG_PATH . 'modules/update-my-browser/update-banner.css')
+            );
+
+            wp_enqueue_script(
+                'madquick-ppg-update-browser',
+                MADQUICK_PPG_URL . 'modules/update-my-browser/update-banner.js',
+                [],
+                filemtime(MADQUICK_PPG_PATH . 'modules/update-my-browser/update-banner.js'),
+                true
+            );
         }
 
         public function register_admin_menu() {
@@ -225,6 +289,35 @@ if (!class_exists('Madquick_PPG')) {
          */
         public function hide_create_submenu_item() {
             remove_submenu_page('madquick-ppg-home', 'madquick-ppg-create');
+        }
+
+        public function output_update_my_browser_html() {
+            if (is_admin() || empty($this->settings['enable_update_banner'])) return;
+            include MADQUICK_PPG_PATH . 'modules/update-my-browser/update-banner.php';
+        }
+
+        public function enqueue_cookie_banner_assets() {
+            if (is_admin() || empty($this->settings['enable_cookie_banner'])) return;
+
+            wp_enqueue_style(
+                'madquick-cookie-banner',
+                MADQUICK_PPG_URL . 'modules/update-my-browser/cookie-banner.css',
+                [],
+                filemtime(MADQUICK_PPG_PATH . 'modules/update-my-browser/cookie-banner.css')
+            );
+
+            wp_enqueue_script(
+                'madquick-cookie-banner',
+                MADQUICK_PPG_URL . 'modules/update-my-browser/cookie-banner.js',
+                [],
+                filemtime(MADQUICK_PPG_PATH . 'modules/update-my-browser/cookie-banner.js'),
+                true
+            );
+        }
+
+        public function output_cookie_banner() {
+            if (is_admin() || empty($this->settings['enable_cookie_banner'])) return;
+            include MADQUICK_PPG_PATH . 'modules/update-my-browser/cookie-banner.php';
         }
     }
 

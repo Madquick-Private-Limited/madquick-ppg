@@ -64,7 +64,8 @@ Using the correct naming of identifier that start with madquick-ppg or madquick_
 Remove deprecation warnings
 Added strong password checker
 Added a new page called 'settings'
-Register password checker settings
+Register strong password checker settings
+Imple update browser with cookie banner
 
 == License ==
 

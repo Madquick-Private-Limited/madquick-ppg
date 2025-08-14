@@ -1,0 +1,79 @@
+.mq-cookie-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #1e1e1e;
+  color: #fff;
+  padding: 16px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  max-width: 320px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: mq-slide-up 0.3s ease-out;
+}
+@keyframes mq-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.mq-cookie-text {
+  margin: 0;
+  line-height: 1.5;
+}
+.mq-cookie-text a {
+  text-transform: capitalize;
+}
+.mq-cookie-banner a {
+  color: #4cc9f0;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.mq-cookie-banner a:hover {
+  text-decoration: none;
+}
+.mq-cookie-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.mq-cookie-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.15s ease;
+  border: none;
+}
+.mq-cookie-btn.accept {
+  background: #4cc9f0;
+  color: #000;
+}
+.mq-cookie-btn.accept:hover {
+  background: #38bdf8;
+  transform: translateY(-1px);
+}
+.mq-cookie-btn.reject {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+}
+.mq-cookie-btn.reject:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+.mq-cookie-btn:focus {
+  outline: 2px solid #4cc9f0;
+  outline-offset: 2px;
+}
