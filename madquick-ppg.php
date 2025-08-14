@@ -22,6 +22,11 @@ define('MADQUICK_PPG_URL', plugin_dir_url(__FILE__));
 // Required files
 require_once MADQUICK_PPG_PATH . 'ajax/create-ppg-page.php';
 require_once MADQUICK_PPG_PATH . 'inc/class-madquick-ppg-strong-pass-checker.php';
+require_once MADQUICK_PPG_PATH . 'inc/madquick-ppg-activator.php';
+
+// Register hooks
+register_activation_hook(__FILE__, ['Madquick_PPG_Activator', 'activate']);
+register_deactivation_hook(__FILE__, ['Madquick_PPG_Activator', 'deactivate']);
 
 if (!class_exists('Madquick_PPG')) {
     final class Madquick_PPG {
