@@ -110,6 +110,6 @@ class Madquick_PPG_Activator {
      * Run on plugin deactivation
      */
     public static function deactivate() {
-        delete_option('madquick_ppg_settings');
+        // delete_option('madquick_ppg_settings');
     }
 }
