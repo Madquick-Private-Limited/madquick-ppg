@@ -35,8 +35,7 @@ if (!class_exists('Madquick_PPG')) {
         public function __construct() {
             // Load settings once
             $this->settings = get_option('madquick_ppg_settings', []);
-
-            add_action('plugins_loaded', [$this, 'load_textdomain']);
+            
             add_action('admin_menu', [$this, 'register_admin_menu']);                 // default priority 10
             add_action('admin_menu', [$this, 'hide_create_submenu_item'], 999);       // remove it from UI
             add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
@@ -127,10 +126,6 @@ if (!class_exists('Madquick_PPG')) {
             $output['enable_update_banner'] = !empty($input['enable_update_banner']);
 
             return $output;
-        }
-
-        public function load_textdomain() {
-            load_plugin_textdomain('madquick-ppg', false, dirname(plugin_basename(__FILE__)) . '/languages/');
         }
 
         /**

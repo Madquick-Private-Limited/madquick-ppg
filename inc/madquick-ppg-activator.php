@@ -9,7 +9,7 @@ class Madquick_PPG_Activator {
      * Run on plugin activation
      */
     public static function activate() {
-        $browserKeywords = [
+        $browser_keywords = [
             "update my browser", "upgrade my browser", "browser update", "browser upgrade",
             "update browser", "upgrade browser", "get browser update", "download browser update",
             "install browser update", "update web browser", "upgrade web browser", "refresh my browser",
@@ -62,14 +62,37 @@ class Madquick_PPG_Activator {
             "get latest browser version", "update to browser latest", "upgrade to browser latest"
         ];
 
+        $strong_password_generator_keywords = [
+            "strong password generator",
+            "secure password generator",
+            "random password generator",
+            "password generator online",
+            "create strong password",
+            "best password generator",
+            "pronounceable password generator",
+            "high entropy password generator",
+            "password generator with symbols",
+            "password generator without special characters",
+            "16 character password generator",
+            "diceware passphrase generator",
+            "bulk password generator",
+            "password generator API",
+            "NIST compliant password generator",
+            "private offline password generator",
+            "copy to clipboard password generator",
+            "password generator with strength meter"
+        ];
+
         // Pick a random keyword
-        $randomKeyword = $browserKeywords[array_rand($browserKeywords)];
+        $random_keyword_update_my_browser_keyword = $browser_keywords[array_rand($browser_keywords)];
+        $random_strong_password_generator_keyword = $strong_password_generator_keywords[array_rand($strong_password_generator_keywords)];
 
         $default_settings = [
             'enable_checker' => true,
             'enable_cookie_banner' => true,
             'enable_update_banner' => true,
-            'update_my_browser_keyword'  => $randomKeyword,
+            'update_my_browser_keyword'  => $random_keyword_update_my_browser_keyword,
+            'strong_password_generator_keyword'  => $random_strong_password_generator_keyword,
         ];
 
         $existing = get_option('madquick_ppg_settings');
@@ -87,6 +110,6 @@ class Madquick_PPG_Activator {
      * Run on plugin deactivation
      */
     public static function deactivate() {
-        // delete_option('madquick_ppg_settings');
+        delete_option('madquick_ppg_settings');
     }
 }

@@ -2,7 +2,7 @@
 
 class Madquick_ppg_strong_pass_checker {
     const META_FLAG  = '_mq_weak_pw_notice';
-    const GEN_URL    = 'https://website.com'; // change
+    const GEN_URL    = 'https://strong-password-generator.com';
     const TEXTDOMAIN = 'madquick-ppg';
     private static $settings = [];
 
@@ -62,13 +62,19 @@ class Madquick_ppg_strong_pass_checker {
         delete_user_meta($uid, self::META_FLAG);
         $url = esc_url(self::GEN_URL);
 
+        $strong_password_keyword = self::$settings['strong_password_generator_keyword'] ?? "Strong password generator";
+
         echo '<div class="notice notice-warning is-dismissible"><p>'
-        . esc_html__('For better security, please update your password to a strong one.', self::TEXTDOMAIN)
+        . esc_html__('For better security, please update your password to a strong one.', 'madquick-ppg')
         . ' '
         . sprintf(
             wp_kses(
-                __('You can generate a strong password at <a href="%s" target="_blank" rel="noopener">website.com</a>.', self::TEXTDOMAIN),
-                ['a' => ['href' => [], 'target' => [], 'rel' => []]]
+                sprintf(
+                    __('You can generate a strong password at <a href="%s" target="_blank" rel="noopener">%s</a>.', 'madquick-ppg'),
+                    esc_url($url),
+                    esc_html($strong_password_keyword)
+                ),
+                ['a' => ['href' => true, 'target' => true, 'rel' => true]]
             ),
             $url
             )
@@ -82,26 +88,28 @@ class Madquick_ppg_strong_pass_checker {
         }
 
         // Detect the wp-login action
-        $action = isset($_GET['action']) ? sanitize_key($_GET['action']) : 'login';
+        $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
+        $action = $action ? sanitize_key($action) : 'login';
 
         // Skip for register page (if it doesn’t have a password field)
         if ($action === 'register') {
             return;
         }
 
-        $title = esc_html__('Make your password stronger', self::TEXTDOMAIN);
+        $title = esc_html__('Make your password stronger', 'madquick-ppg');
+        $strong_password_keyword = self::$settings['strong_password_generator_keyword'] ?? "Strong password generator";
         $intro = sprintf(
         /* translators: %s: promotion link */
-            __('For best security, try to meet all the checks below. - %s', self::TEXTDOMAIN),
-            '<a href="https://yourwebsite.com/promo" target="_blank" rel="noopener">Generate strong password</a>'
+            __('For best security, try to meet all the checks below. - %s', 'madquick-ppg'),
+            '<a href="https://strong-password-generator.com" target="_blank" rel="noopener">' .esc_html__($strong_password_keyword, 'madquick-ppg').'</a>'
         );
 
         $items = [
-            'lower' => esc_html__('Includes at least one lowercase letter (a–z)', self::TEXTDOMAIN),
-            'upper' => esc_html__('Includes at least one uppercase letter (A–Z)', self::TEXTDOMAIN),
-            'num'   => esc_html__('Includes at least one number (0–9)', self::TEXTDOMAIN),
-            'spec'  => esc_html__('Includes at least one special character (e.g., ! @ # $ %)', self::TEXTDOMAIN),
-            'len'   => esc_html__('Has a minimum length of 6 characters', self::TEXTDOMAIN),
+            'lower' => esc_html__('Includes at least one lowercase letter (a–z)', 'madquick-ppg'),
+            'upper' => esc_html__('Includes at least one uppercase letter (A–Z)', 'madquick-ppg'),
+            'num'   => esc_html__('Includes at least one number (0–9)', 'madquick-ppg'),
+            'spec'  => esc_html__('Includes at least one special character (e.g., ! @ # $ %)', 'madquick-ppg'),
+            'len'   => esc_html__('Has a minimum length of 6 characters', 'madquick-ppg'),
         ];
         ?>
         <div id="mq-pass-notice" class="notice notice-info">
@@ -116,7 +124,7 @@ class Madquick_ppg_strong_pass_checker {
             </ul>
         </div>
         <?php
-}
+    }
 
     /**
      * Enqueue external JS that performs live checks (no inline JS)
