@@ -74,7 +74,6 @@ class Madquick_PPG_Activator {
             "password generator with symbols",
             "password generator without special characters",
             "16 character password generator",
-            "diceware passphrase generator",
             "bulk password generator",
             "password generator API",
             "NIST compliant password generator",
