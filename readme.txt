@@ -4,7 +4,7 @@ Tags: privacy, policy, terms, legal, GDPR
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
